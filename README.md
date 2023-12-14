@@ -1,6 +1,6 @@
 # clerouxfr.github.io
 
-
+# AKIO
 ## Prepare all ALL VMs
 
 
@@ -104,7 +104,7 @@ Chown -R akio.akio /var/akio
 
 ==REBOOT --->> snapshots all VMs==
 
-### system
+## Elastic
 
 ```Almalinux
 unzip -o uic-installer-7.30.3-system-almalinux8.zip
@@ -146,7 +146,7 @@ lines 1-18/18 (END)
 ```
 
 
-```Almalinux
+```sh
 curl -u 'akio:superuser!2K23' -X GET 'http://localhost:9200/_cat/indices'
 ```
 
@@ -168,13 +168,13 @@ green open statcallsagent_10ee4f7a-a2ac-4bb1-8f26-0383a78dbac7-000001    x1mC3dA
 green open ale_ws_io-000001                                              vwa7ws7CSf-0_d_UIGmQWQ 1 0   0 0    226b    226b
 green open ivr_cdr_10ee4f7a-a2ac-4bb1-8f26-0383a78dbac7-000001           ffNAztrYTlmBzBXa1slSNg 1 0   0 0    226b    226b
 ```
-#### system
-```Almalinux
+## DB
+```sh
 unzip -o uic-installer-7.30.3-system-almalinux8.zip
 ```
 
 Adapter le fichier SysInstaller-AutoInstall.xml
-```Almalinux
+```sh
 ./UicSysInstaller-almalinux8-7.30.3.sh -- -s /var/akio/installer/SysInstaller-AutoInstall.xml
 ```
 
@@ -252,7 +252,7 @@ postgres=#
 * \\c database_name pour changer de bdd
 * \\dt pour lister les tables 
 
-#### system
+## CORE
 ```Almalinux
 unzip -o uic-installer-7.30.3-system-almalinux8.zip
 ```
