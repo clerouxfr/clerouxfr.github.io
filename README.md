@@ -71,11 +71,15 @@ nano /etc/hostname
 HOST
 
 
-Création de  l’utilisateur akio [[DONNER LES DROIT ROOT À UN UTILISATEUR]]
-```Almalinux
+Création de  l’utilisateur akio
+```sh
 /usr/sbin/useradd akio -c "AKIO's user account" -d /var/akio -G daemon -m
-
+```
+```sh
 chmod 755 /var/akio
+```
+
+```sh
 su – akio
 ```
 
