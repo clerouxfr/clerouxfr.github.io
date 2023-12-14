@@ -548,8 +548,33 @@ chmod 700 /var/akio/user/data/conf/rc.fetchmail/fetchmail.ale.conf
 ```Almalinux
 /usr/bin/fetchmail -f /var/akio/user/data/conf/rc.fetchmail/fetchmail.ale.conf
 ```
-
+ssh-keygen -R 10.33.50.180
+ 6816  ssh-keygen -R 10.33.50.181
+ 6817  ssh-keygen -R 10.33.50.182
+ 6818  nano /home/christl/.ssh/known_hosts
+ 6819  ssh-copy-id root@10.33.50.181
+ 6820  ssh-copy-id root@10.33.50.182
+ 6821  ssh-copy-id root@10.33.50.180
 >Email server account authentication ......
+>
+
+
+## Ansible
+
+```ssh
+ssh-keygen
+```
+
+```ssh
+ssh-copy-id root@hostipaddress
+```
+
+```ssh
+ansible-playbook -i host playbook-akio.yml -u root 
+```
+
+
+
 
 
 
