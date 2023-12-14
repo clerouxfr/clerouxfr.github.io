@@ -1,0 +1,6 @@
+[core]
+ 10.33.50.180   ansible_hostname=hspakiocore
+ [apps]
+ 10.33.50.181   ansible_hostname=hspakioelastic
+ 10.33.50.182   ansible_hostname=hspakiodb
+

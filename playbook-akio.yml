@@ -1,0 +1,121 @@
+---
+- name: Configuration and setup
+  hosts: all
+  become: true
+  tasks:
+    - name: Disable SELinux
+      lineinfile:
+        path: /etc/sysconfig/selinux
+        regexp: '^SELINUX='
+        line: 'SELINUX=disabled'
+
+    - name: Configure sysctl.conf
+      blockinfile:
+        path: /etc/sysctl.conf
+        block: |
+          fs.file-max = 524288
+          net.ipv6.conf.all.disable_ipv6=1
+
+    - name: Configure limits.conf
+      blockinfile:
+        path: /etc/security/limits.conf
+        block: |
+          akio     hard      nproc   10000
+          akio     soft      nproc   10000
+          akio     -         nofile  30000
+
+    - name: Install required tools
+      dnf:
+        name:
+          - unzip
+          - tar
+          - wget
+          - nano
+          - mlocate
+          - open-vm-tools
+        state: present
+
+    - name: Update locate database
+      command: updatedb
+    
+    - name: Configure hostname
+      lineinfile:
+        path: /etc/hostname
+        line: '{{ ansible_hostname }}'
+
+    - name: Ensure DOMAINNAME is set in /etc/sysconfig/network
+      lineinfile:
+        path: /etc/sysconfig/network
+        regexp: '^DOMAINNAME='  # Match the line starting with DOMAINNAME
+        line: 'DOMAINNAME=hospitality.com'  # The line to replace or add if not found
+
+    - name: Update the /etc/hosts file with node name
+      tags: etchostsupdate
+      become: yes
+      become_user: root
+      lineinfile:
+        path: "/etc/hosts"
+        regexp: ".*\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+        line: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}.{{ 'hospitality.com' }}\t{{ hostvars[item]['ansible_hostname']}}"
+        state: present
+        backup: yes
+      register: etchostsupdate
+      when: ansible_hostname != "{{ item }}" or ansible_hostname == "{{ item }}"
+      with_items: "{{groups['all']}}"
+
+    - name: Create user akio
+      user:
+        name: akio
+        comment: "AKIO's user account"
+        home: /var/akio
+        groups: daemon
+        createhome: yes
+
+    - name: Set permissions on /var/akio
+      file:
+        path: /var/akio
+        mode: '0755'
+
+    - name: Change ownership of /var/akio to akio
+      command: chown -R akio.akio /var/akio
+
+- name: Switch to user akio
+  hosts: all
+  become: true
+  become_user: akio
+  tasks:
+    - name: Create installer directory
+      file:
+        path: /var/akio/installer
+        state: directory
+
+- name: Switch to user akio
+  hosts: all
+  become: true
+  become_user: akio
+  tasks:
+    - name: Create SOURCES directory
+      file:
+        path: /var/akio/SOURCES
+        state: directory
+
+- name: Switch to user akio
+  hosts: all
+  become: true
+  become_user: akio
+  tasks:
+    - name: Create SPECIFIC directory
+      file:
+        path: /var/akio/SOURCES/SPECIFIC
+        state: directory
+
+- name: Core additional
+  hosts: core
+  become: true
+  tasks:
+    - name: Install additional tools
+      dnf:
+        name:
+          - postfix
+          - fetchmail
+        state: present
