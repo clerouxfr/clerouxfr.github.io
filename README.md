@@ -430,16 +430,16 @@ nano /etc/postfix/main.cf
         <td>par cette ligne</td>
     </tr>
     <tr>
-        <th bgcolor="darkgrey">alias_maps = hash:/etc/aliases</th>
-        <td bgcolor="darkgreen">alias_maps = hash:/var/akio/user/data/conf/aliases, hash:/etc/aliases</td>
+        <th>alias_maps = hash:/etc/aliases</th>
+        <td>alias_maps = hash:/var/akio/user/data/conf/aliases, hash:/etc/aliases</td>
     </tr>
     <tr>
-        <th bgcolor="darkgrey">alias_database = hash:/etc/aliases</th>
-        <td bgcolor="darkgreen">alias_database = hash:/etc/aliases, hash:/var/akio/user/data/conf/aliases</td>
+        <th>alias_database = hash:/etc/aliases</th>
+        <td>alias_database = hash:/etc/aliases, hash:/var/akio/user/data/conf/aliases</td>
     </tr>
     <tr>
-        <th bgcolor="darkgrey">inet_interfaces = localhost</th>
-        <td bgcolor="darkgreen">inet_interfaces = all</td>
+        <th>inet_interfaces = localhost</th>
+        <td>inet_interfaces = all</td>
     </tr>
 </table>
 ---
@@ -548,13 +548,7 @@ chmod 700 /var/akio/user/data/conf/rc.fetchmail/fetchmail.ale.conf
 ```Almalinux
 /usr/bin/fetchmail -f /var/akio/user/data/conf/rc.fetchmail/fetchmail.ale.conf
 ```
-ssh-keygen -R 10.33.50.180
- 6816  ssh-keygen -R 10.33.50.181
- 6817  ssh-keygen -R 10.33.50.182
- 6818  nano /home/christl/.ssh/known_hosts
- 6819  ssh-copy-id root@10.33.50.181
- 6820  ssh-copy-id root@10.33.50.182
- 6821  ssh-copy-id root@10.33.50.180
+
 >Email server account authentication ......
 >
 
@@ -573,6 +567,9 @@ ssh-copy-id root@hostipaddress
 ansible-playbook -i host playbook-akio.yml -u root 
 ```
 
+```ssh
+ssh-keygen -R IP_ADDRESS to remove from /.ssh/known_hosts
+```
 
 
 
